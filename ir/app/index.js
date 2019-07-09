@@ -11,6 +11,7 @@ const {
   exec
 } = require('child_process');
 const app = express();
+let currentCommand = "none";
 
 errorHandler = (err, req, res, next) => {
   res.status(500);
@@ -35,6 +36,10 @@ app.post('/cmd/:remote/:cmd/:apikey', (req, res) => {
   if (!req.params.apikey || req.params.apikey !== process.env.BALENA_SUPERVISOR_API_KEY) {
     return res.status(401).send('Unauthorized');
   }
+  currentCommand = {
+    remote: req.params.remote,
+    cmd: req.params.cmd
+  };
   exec('irsend SEND_ONCE ' + req.params.remote + ' ' + req.params.cmd, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
@@ -42,6 +47,13 @@ app.post('/cmd/:remote/:cmd/:apikey', (req, res) => {
     }
     res.status(200).send('OK');
   });
+});
+
+app.get('/cmd/:apikey', (req, res) => {
+  if (!req.params.apikey || req.params.apikey !== process.env.BALENA_SUPERVISOR_API_KEY) {
+    return res.status(401).send('Unauthorized');
+  }
+  res.status(200).send(currentCommand);
 });
 
 app.listen(80);
