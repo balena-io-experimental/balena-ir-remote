@@ -1,9 +1,13 @@
 version: '2'
+volumes:
+    resin-data:
 services:
   ir-service:
     network_mode: host
     restart: always
     build: ./ir
+    volumes:
+      - 'resin-data:/data'
     privileged: true
     labels:
       io.balena.features.dbus: 1
