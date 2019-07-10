@@ -2,6 +2,7 @@
   "short_name": "balenaIR",
   "name": "balenaIR",
   "start_url": "/",
+  "background_color": "#EC8B00",
   "display": "standalone",
   "icons": [{
       "src": "\/android-icon-36x36.png",
