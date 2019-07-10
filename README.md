@@ -66,4 +66,4 @@ Warning: Running as root.
 ```
 3. copy the column-ordered part and create a new remote configuration from `ir/remotes/template.conf` for that command, repeat until you have mapped all the commands you want to handle
 4. push your updated app (with the remote config file you added)
-5. you can now trigger your commands with a POST request to `<DEVICE IP OR PUBLIC URL>/cmd/$REMOTE_NAME_FROM_YOUR_CONFIG/$REMOTE_COMMAND_NAME_FROM_YOUR_CONFIG/$BALENA_SUPERVISOR_API_KEY` You can get `$BALENA_SUPERVISOR_API_KEY` by running `echo $BALENA_SUPERVISOR_API_KEY` within an `ir-service` webterminal shell.
+5. you can now trigger your commands with a POST request to `<DEVICE IP OR PUBLIC URL>/cmd/$REMOTE_NAME_FROM_YOUR_CONFIG/$REMOTE_COMMAND_NAME_FROM_YOUR_CONFIG/$IR_PASSWORD` You can set `$IR_PASSWORD` as a `ir-service` service variable, otherwise it will default to `balena` (please do change it!).
