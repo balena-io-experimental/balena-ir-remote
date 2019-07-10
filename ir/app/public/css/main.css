@@ -1,5 +1,5 @@
-body {
-  background-color: #EC8B00;
+body, .navbar {
+  background-color: #EC8B00 !important;
 }
 .alert {
   display:none;
