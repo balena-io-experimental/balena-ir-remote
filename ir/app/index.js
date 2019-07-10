@@ -6,6 +6,7 @@ const serveStatic = require('serve-static');
 const path = require('path');
 const mime = require('mime');
 const bodyParser = require("body-parser");
+const PASSWORD = process.env.IR_PASSWORD || 'balena';
 const {
   exec
 } = require('child_process');
@@ -36,8 +37,8 @@ app.use(errorHandler);
 app.use(serveStatic(__dirname + '/public', {
   'index': ['index.html']
 }));
-app.post('/cmd/:remote/:cmd/:apikey', (req, res) => {
-  if (!req.params.apikey || req.params.apikey !== process.env.BALENA_SUPERVISOR_API_KEY) {
+app.post('/cmd/:remote/:cmd/:password', (req, res) => {
+  if (!req.params.password || req.params.password !== PASSWORD) {
     return res.status(401).send('Unauthorized');
   }
   currentCommand.remote = req.params.remote;

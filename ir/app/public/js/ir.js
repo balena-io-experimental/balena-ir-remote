@@ -18,10 +18,10 @@ jQuery('document').ready(function($) {
     event.preventDefault();
     var remote = $(this).data("remote");
     var cmd = $(this).data("cmd");
-    var apikey = $('#apikey').val();
+    var password = $('#password').val();
     $.ajax({
       type: "POST",
-      url: $(location).attr("href") + 'cmd/' + remote + '/' + cmd + '/' + apikey,
+      url: $(location).attr("href") + 'cmd/' + remote + '/' + cmd + '/' + password,
       crossDomain: true,
       success: function(responseData, status, xhr) {
         $('#running-cmd').val(cmd);
