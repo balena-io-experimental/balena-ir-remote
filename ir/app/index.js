@@ -1,5 +1,7 @@
 #!/bin/env node
 
+const jsonfile = require('jsonfile');
+const cmdStateFile = '/data/cmd.json';
 const express = require('express');
 const compression = require('compression');
 const serveStatic = require('serve-static');
@@ -11,10 +13,11 @@ const {
   exec
 } = require('child_process');
 const app = express();
-let currentCommand = {
-  remote: "none",
-  cmd: "none"
-};
+let currentCommand;
+jsonfile.readFile(cmdStateFile, function(err, obj) {
+  if (err) console.error(err);
+  currentCommand = obj;
+});
 
 errorHandler = (err, req, res, next) => {
   res.status(500);
@@ -43,6 +46,9 @@ app.post('/cmd/:remote/:cmd/:password', (req, res) => {
   }
   currentCommand.remote = req.params.remote;
   currentCommand.cmd = req.params.cmd;
+  jsonfile.writeFile(cmdStateFile, currentCommand, function(err) {
+    if (err) console.error(err);
+  });
   exec('irsend SEND_ONCE ' + req.params.remote + ' ' + req.params.cmd, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
