@@ -1,4 +1,4 @@
-# balena-ir
+# balena-ir-remote
 
 simple server application that allows to clone, save and arbitrarily execute IR commands.
 
