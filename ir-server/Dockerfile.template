@@ -1,0 +1,25 @@
+ARG NODEJS_TARGET_VERSION="12.16"
+## buildstep base image
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-node:${NODEJS_TARGET_VERSION}-build AS buildstep
+
+## install required packages
+RUN apk add --update-cache \
+    v4l-utils \
+  && rm -rf /var/cache/apk/*
+
+WORKDIR /usr/src/app
+COPY ./app/package.json package.json
+RUN JOBS=MAX npm install --unsafe-perm --production && npm cache clean --force
+
+## target base image
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-node:${NODEJS_TARGET_VERSION}-run
+
+WORKDIR /usr/src/app
+COPY --from=buildstep /usr/src/app/node_modules node_modules
+COPY --from=buildstep /usr/bin/ir-ctl /usr/bin/ir-ctl
+COPY ./app/ ./
+
+## Enable udevd if you need plugged dynamic hardware devices to show up in your container.
+# ENV UDEV=1
+
+CMD ["npm", "start"]
