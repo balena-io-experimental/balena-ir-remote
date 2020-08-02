@@ -5,10 +5,10 @@ A simple application for controlling your AC with a RaspberryPi ( or a balenaFin
 ## the setup
 
 * a RaspberryPi
-* an IR receiver ( 5V tolerant, digital interface ) VCC -> 5V, GND -> GND, OUT -> GPIO23
-* an IR transmitter ( 5V tolerant, digital interface ) VCC -> 5V, GND -> GND, SIG -> GPIO22
+* an IR receiver ( 5V tolerant, digital interface ) VCC -> 5V, GND -> GND, OUT -> GPIO18
+* an IR transmitter ( 5V tolerant, digital interface ) VCC -> 5V, GND -> GND, SIG -> GPIO17
 
-the following configuration variable set: **RESIN_HOST_CONFIG_dtoverlay** = `lirc-rpi,gpio_in_pin=23,gpio_out_pin=22`
+the following configuration variable set: **RESIN_HOST_CONFIG_dtoverlay** = `gpio-ir,gpio_out_pin=17,gpio_in_pin=18,gpio_in_pull=up`
 
 ## setting up
 
