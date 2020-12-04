@@ -1,14 +1,15 @@
 version: '2'
 volumes:
-    resin-data:
+    balena-data:
 services:
-  ir-service:
-    network_mode: host
-    restart: always
-    build: ./ir
+  ir-server:
+    build: ./ir-server
     volumes:
-      - 'resin-data:/data'
+      - 'balena-data:/data'
+    restart: always
     privileged: true
-    labels:
-      io.balena.features.dbus: 1
-      io.balena.features.supervisor-api: 1
+    devices:
+      - '/dev/lirc0:/dev/lirc0'
+      - '/dev/lirc1:/dev/lirc1'
+    ports:
+      - "80:80"
